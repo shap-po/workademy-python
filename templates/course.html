@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="uk-UA">
+    <head>
+        <meta charset="UTF-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, user-scalable=no"
+        />
+        <title>Course viewer - {{course_id}}</title>
+        <link
+            rel="stylesheet"
+            href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons"
+        />
+        <link
+            rel="stylesheet"
+            href="https://use.fontawesome.com/releases/v5.0.13/css/all.css"
+        />
+        <link
+            rel="stylesheet"
+            href="https://cdn-images.mailchimp.com/embedcode/classic-10_7.css"
+        />
+        <link
+            rel="stylesheet"
+            href="https://unpkg.com/vue-plyr/dist/vue-plyr.css"
+        />
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        <script
+            src="https://app-cdn.clickup.com/assets/js/forms-embed/v1.js"
+            async=""
+        ></script>
+        <script
+            src="//fast.wistia.com/assets/external/E-v1.js"
+            async=""
+        ></script>
+
+        <link rel="stylesheet" href="/static/_nuxt/vendors/app.css" />
+        <link rel="stylesheet" href="/static/_nuxt/app.css" />
+        <link
+            rel="stylesheet"
+            href="/static/_nuxt/pages/admin-courses/425dea91.css"
+        />
+        <link rel="stylesheet" href="/static/_nuxt/pages/index.css" />
+        <link rel="stylesheet" href="/static/_nuxt/pages/courses/index.css" />
+        <link rel="stylesheet" href="/static/shared.css" />
+
+        {% for css in css_files %}
+        <link rel="stylesheet" href="/data/{{course_id}}/css/{{ css }}" />
+        {% endfor %} {% for js in js_files %}
+        <script src="/data/{{course_id}}/js/{{ js }}" defer></script>
+        {% endfor %}
+
+        <link rel="stylesheet" href="/static/course/course.css" />
+        <script src="/static/course/course.js" defer></script>
+    </head>
+    <body data-aos-easing="ease" data-aos-duration="400" data-aos-delay="0">
+        {%if not noheader %}
+        <div class="course-viewer-embed">
+            <a
+                href="https://study.ed-era.com/uk/courses/course/{{course_id}}"
+                class="course-viewer-btn"
+                title="View this course on the actual website"
+                >View on ed-era</a
+            >
+            <a
+                href="http://localhost:3000/uk/courses/course/{{course_id}}"
+                class="course-viewer-btn"
+                title="View this course on the local hosted workademy website"
+                >View on workademy</a
+            >
+            <a
+                href="/uk/courses/course/{{course_id}}/certificate"
+                class="course-viewer-btn"
+                title="View this course's certificate"
+                >View certificate</a
+            >
+        </div>
+        {% endif %}
+
+        <div id="_nuxt">
+            <div id="__layout">
+                <div
+                    data-app="true"
+                    id="app"
+                    class="v-application workademy-app courses-main-container v-application--is-ltr theme--light"
+                >
+                    <div class="v-application--wrap">
+                        <main
+                            class="v-main course-main"
+                            style="
+                                padding-top: 0px !important;
+                                background-color: rgba(0, 111, 184, 0.06);
+                            "
+                            data-booted="true"
+                        >
+                            <div class="v-main__wrap">
+                                <div class="">
+                                    <div>{{ content|safe }}</div>
+                                </div>
+                            </div>
+                        </main>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

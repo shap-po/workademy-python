@@ -1,0 +1,3 @@
+.v-expansion-panel[aria-expanded="false"] .v-expansion-panel-content {
+	display: none;
+}
