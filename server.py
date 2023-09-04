@@ -4,8 +4,15 @@ from bs4 import BeautifulSoup
 import glob
 import os
 import json
+import requests
+from urllib.parse import urljoin
+
 
 DEFAULT_PORT = 5000
+FETCH_COURSE_CSS_URL = 'https://study.ed-era.com/uk/courses/course/'
+FETCH_CERTIFICATE_CSS_URL = 'https://study.ed-era.com/uk/verifycertificate/'
+FETCHED_COURSE_CSS_DIR = 'static/downloaded/course'
+FETCHED_CERTIFICATE_CSS_DIR = 'static/downloaded/certificate'
 
 # read config
 try:
@@ -13,10 +20,14 @@ try:
         config = json.load(f)
         COURSES_LOCATION = config.get('courses_location')
         PORT = config.get('port', DEFAULT_PORT)
+        FETCH_CSS = config.get('fetch_css_on_startup', True)
+        DEBUG = config.get('debug', False)
 except FileNotFoundError:
     config = {
         'courses_location': "",
         'port': DEFAULT_PORT,
+        'fetch_css_on_startup': True,
+        'debug': False,
     }
     with open('config.json', 'w') as f:
         json.dump(config, f, indent=4)
@@ -102,6 +113,8 @@ def course(course_id: str):
         course_id=course_id,
         css_files=['style.css'],
         js_files=js_files,
+        other_css=[
+            f'/{FETCHED_COURSE_CSS_DIR}/{f}' for f in os.listdir(FETCHED_COURSE_CSS_DIR)],
         noheader=flask.request.args.get('noheader') is not None,
     )
 
@@ -141,6 +154,8 @@ def certificate(course_id: str):
         content=Markup(content),
         course_id=course_id,
         css_files=['certificate.css'],
+        other_css=[
+            f'/{FETCHED_CERTIFICATE_CSS_DIR}/{f}' for f in os.listdir(FETCHED_CERTIFICATE_CSS_DIR)],
         noheader=flask.request.args.get('noheader') is not None,
     )
 
@@ -172,5 +187,39 @@ def index():
     )
 
 
+
+def fetch_css_files(url: str, dir: str):
+    os.makedirs(dir, exist_ok=True)
+    response = requests.get(url)
+    if response.status_code != 200:
+        print('Error fetching css')
+    # make sure directory is empty
+    for f in glob.glob(os.path.join(dir, '*')):
+        os.remove(f)
+    soup = BeautifulSoup(response.text, 'html.parser')
+    css_links = soup.find_all('link', {'rel': 'stylesheet'})
+    for link in css_links:
+        href = link.get('href', '')
+        if not href:
+            continue
+        response = requests.get(urljoin(url, href))
+        if response.status_code != 200:
+            print(f'Error fetching {href}')
+            continue
+        # get filename from url
+        filename = os.path.basename(
+            href) if 'https://fonts.googleapis.com/' not in href else 'google_fonts.css'
+
+        with open(os.path.join(dir, filename), 'w', encoding='utf-8') as f:
+            f.write(response.text)
+
+
 if __name__ == '__main__':
-    app.run(port=PORT, debug=True)
+    if (not DEBUG and FETCH_CSS) or not os.path.exists(FETCHED_COURSE_CSS_DIR):
+        print('Fetching course css...')
+        fetch_css_files(FETCH_COURSE_CSS_URL, FETCHED_COURSE_CSS_DIR)
+    if (not DEBUG and FETCH_CSS) or not os.path.exists(FETCHED_CERTIFICATE_CSS_DIR):
+        print('Fetching certificate css...')
+        fetch_css_files(FETCH_CERTIFICATE_CSS_URL, FETCHED_CERTIFICATE_CSS_DIR)
+
+    app.run(port=PORT, debug=DEBUG)

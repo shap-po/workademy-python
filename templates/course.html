@@ -7,22 +7,6 @@
             content="width=device-width, initial-scale=1, user-scalable=no"
         />
         <title>Course viewer - {{course_id}}</title>
-        <link
-            rel="stylesheet"
-            href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons"
-        />
-        <link
-            rel="stylesheet"
-            href="https://use.fontawesome.com/releases/v5.0.13/css/all.css"
-        />
-        <link
-            rel="stylesheet"
-            href="https://cdn-images.mailchimp.com/embedcode/classic-10_7.css"
-        />
-        <link
-            rel="stylesheet"
-            href="https://unpkg.com/vue-plyr/dist/vue-plyr.css"
-        />
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
         <script
@@ -34,20 +18,14 @@
             async=""
         ></script>
 
-        <link rel="stylesheet" href="/static/_nuxt/vendors/app.css" />
-        <link rel="stylesheet" href="/static/_nuxt/app.css" />
-        <link
-            rel="stylesheet"
-            href="/static/_nuxt/pages/admin-courses/425dea91.css"
-        />
-        <link rel="stylesheet" href="/static/_nuxt/pages/index.css" />
-        <link rel="stylesheet" href="/static/_nuxt/pages/courses/index.css" />
         <link rel="stylesheet" href="/static/shared.css" />
 
         {% for css in css_files %}
         <link rel="stylesheet" href="/data/{{course_id}}/css/{{ css }}" />
         {% endfor %} {% for js in js_files %}
         <script src="/data/{{course_id}}/js/{{ js }}" defer></script>
+        {% endfor %}{% for css in other_css %}
+        <link rel="stylesheet" href="{{ css }}" />
         {% endfor %}
 
         <link rel="stylesheet" href="/static/course/course.css" />
