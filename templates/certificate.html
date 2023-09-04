@@ -29,8 +29,14 @@
     <body data-aos-easing="ease" data-aos-duration="400" data-aos-delay="0">
         {%if not noheader %}
         <div class="course-viewer-embed">
-            <a href="/uk/courses/course/{{course_id}}" class="course-viewer-btn"
-                >View course</a
+            <a
+                href="http://localhost:3000/uk/verifycertificate/?courseId={{course_id}}"
+                class="course-viewer-btn"
+                >Workademy</a
+            ><a
+                href="/uk/courses/course/{{course_id}}"
+                class="course-viewer-btn"
+                >Course</a
             >
         </div>
         {% endif %}

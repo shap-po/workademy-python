@@ -35,22 +35,34 @@
         {%if not noheader %}
         <div class="course-viewer-embed">
             <a
+                href="?noheader=1"
+                class="course-viewer-btn"
+                title="View this course without this header"
+                >Headless</a
+            >
+            <a
+                href="/"
+                class="course-viewer-btn"
+                title="View all courses in the workspace"
+                >All courses</a
+            >
+            <a
                 href="https://study.ed-era.com/uk/courses/course/{{course_id}}"
                 class="course-viewer-btn"
                 title="View this course on the actual website"
-                >View on ed-era</a
+                >To ed-era</a
             >
             <a
                 href="http://localhost:3000/uk/courses/course/{{course_id}}"
                 class="course-viewer-btn"
                 title="View this course on the local hosted workademy website"
-                >View on workademy</a
+                >To workademy</a
             >
             <a
                 href="/uk/courses/course/{{course_id}}/certificate"
                 class="course-viewer-btn"
                 title="View this course's certificate"
-                >View certificate</a
+                >Certificate</a
             >
         </div>
         {% endif %}

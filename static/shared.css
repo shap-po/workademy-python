@@ -13,8 +13,20 @@
     border-radius: 0.5rem;
     transition: background-color 0.3s ease;
     padding: 0.375rem 0.75rem;
+    user-select: none;
 }
 .course-viewer-btn:hover {
     background-color: #f2dda4;
     color: #000;
+}
+@media (max-width: 700px) {
+    .course-viewer-embed {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+    }
+    /* make sure last element stays on the top tight corner */
+    .course-viewer-embed :last-child {
+        grid-column: 3;
+        grid-row: 1;
+    }
 }

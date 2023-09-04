@@ -78,11 +78,11 @@ def edit_course_content(content: str, course_id: str) -> str:
         if content:
             content.name = 'div'
             content['class'] = 'v-expansion-panel-content'
-            p = content.find('p')
-            if p:
-                wrapper = soup.new_tag('div')
-                wrapper['class'] = 'v-expansion-panel-content__wrap'
-                p.wrap(wrapper)
+            wrapper = soup.new_tag('div')
+            wrapper['class'] = 'v-expansion-panel-content__wrap'
+            # wrap all children
+            for child in content.children:
+                child.wrap(wrapper)
 
     for panels in soup.find_all('v-expansion-panels'):
         panels.name = 'div'
@@ -167,25 +167,42 @@ def serve_course_data(course_id: str, file_path: str):
     return flask.send_from_directory(os.path.join(COURSES_LOCATION, course_id), file_path)
 
 
-@app.route('/')
-@app.route('/uk/')
-@app.route('/uk/courses/')
-@app.route('/uk/courses/course/')
-@app.route('/courses/')
-@app.route('/courses/course/')
-def index():
-    courses = (c for c in glob.glob(
-        os.path.join(COURSES_LOCATION, '*/template/template.html'), recursive=True))
+def get_courses(certificate=False):
+    courses = (c for c in glob.glob(os.path.join(COURSES_LOCATION,
+                                                 '*/template/template.html' if not certificate else '*/template/certificate.html'
+                                                 ), recursive=True))
     courses = (os.path.dirname(c) for c in courses)
     courses = (os.path.dirname(c) for c in courses)
     courses = (os.path.basename(c) for c in courses)
     courses = (int(c) for c in courses if c.isdigit())
     courses = sorted(courses, reverse=True)
+    return courses
+
+
+@app.route('/')
+@app.route('/uk')
+@app.route('/uk/courses')
+@app.route('/uk/courses/course')
+@app.route('/courses')
+@app.route('/courses/course')
+def index():
+    courses = get_courses()
     return flask.render_template(
         'index.html',
         courses=courses,
     )
 
+
+@app.route('/certificates')
+@app.route('/uk/certificates')
+@app.route('/c')
+@app.route('/uk/c')
+def certificates():
+    courses = get_courses(certificate=True)
+    return flask.render_template(
+        'certificates.html',
+        courses=courses,
+    )
 
 
 def fetch_css_files(url: str, dir: str):

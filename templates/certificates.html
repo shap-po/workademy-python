@@ -8,40 +8,34 @@
     </head>
     <body>
         <div class="course-viewer-embed">
-            <a href="{{ url_for('certificates') }}" class="course-viewer-btn"
-                >Certificates</a
+            <a href="{{ url_for('index') }}}" class="course-viewer-btn"
+                >Courses</a
             >
         </div>
-        <h1>List of Courses</h1>
+        <h1>List of Certificates</h1>
         <ul>
             {% for course_id in courses %}
             <li>
                 <h2>{{course_id}}</h2>
                 <div class="links">
                     <a
-                        href="{{ url_for('course', course_id=course_id) }}"
+                        href="{{ url_for('certificate', course_id=course_id) }}"
                         class="course-viewer-btn"
                     >
                         Course Viewer
                     </a>
                     <a
-                        href="http://localhost:3000/uk/courses/course/{{course_id}}"
+                        href="http://localhost:3000/uk/verifycertificate/?courseId={{course_id}}"
                         class="course-viewer-btn"
                     >
                         Workademy
                     </a>
-                    <a
-                        href="https://study.ed-era.com/uk/courses/course/{{course_id}}"
-                        class="course-viewer-btn"
-                    >
-                        Ed-era
-                    </a>
                 </div>
                 <iframe
-                    src="{{url_for('course', course_id=course_id)}}?noheader"
+                    src="{{url_for('certificate', course_id=course_id)}}?noheader"
                     width="100%"
                     height="500px"
-                    title="course {{course_id}}"
+                    title="certificate {{course_id}}"
                     loading="lazy"
                 ></iframe>
             </li>
