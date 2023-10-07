@@ -183,8 +183,8 @@ def get_courses(certificate=False):
 @app.route('/uk')
 @app.route('/uk/courses')
 @app.route('/uk/courses/course')
-@app.route('/courses')
 @app.route('/courses/course')
+@app.route('/courses')
 def index():
     courses = get_courses()
     return flask.render_template(
@@ -193,10 +193,10 @@ def index():
     )
 
 
-@app.route('/certificates')
 @app.route('/uk/certificates')
 @app.route('/c')
 @app.route('/uk/c')
+@app.route('/certificates')
 def certificates():
     courses = get_courses(certificate=True)
     return flask.render_template(
