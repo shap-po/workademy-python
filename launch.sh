@@ -2,5 +2,10 @@
 
 cd "$(dirname "$0")" || exit
 
-source venv/bin/activate
+# rename venv to .venv if exists
+if [ -d "venv" ]; then
+    mv venv .venv
+fi
+
+source ./.venv/bin/activate
 python server.py

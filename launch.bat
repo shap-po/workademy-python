@@ -2,5 +2,10 @@
 
 PUSHD "%~dp0"
 
-call venv\Scripts\activate
+@REM rename venv to .venv
+IF EXIST venv (
+    RENAME venv .venv
+)
+
+call .venv\Scripts\activate
 python server.py

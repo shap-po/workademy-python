@@ -9,7 +9,7 @@ This is a Python backend for Workademy. Its purpose is to provide a fast testing
 ### Linux
 
 ```bash
-python -m venv venv
+python -m venv .venv
 source venv/bin/activate
 pip install -r requirements.txt
 ```
@@ -17,8 +17,8 @@ pip install -r requirements.txt
 ### Windows
 
 ```bash
-python -m venv venv
-venv\Scripts\activate
+python -m venv .venv
+.\.venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
