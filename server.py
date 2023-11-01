@@ -186,10 +186,13 @@ def get_courses(certificate=False):
 @app.route('/courses/course')
 @app.route('/courses')
 def index():
+    count = flask.request.args.get('count', 10, type=int)
     courses = get_courses()
+    courses = courses[:int(count)]
     return flask.render_template(
         'index.html',
         courses=courses,
+        count=count,
     )
 
 
@@ -198,10 +201,13 @@ def index():
 @app.route('/uk/c')
 @app.route('/certificates')
 def certificates():
+    count = flask.request.args.get('count', 10, type=int)
     courses = get_courses(certificate=True)
+    courses = courses[:int(count)]
     return flask.render_template(
         'certificates.html',
         courses=courses,
+        count=count,
     )
 
 

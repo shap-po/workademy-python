@@ -16,6 +16,9 @@
         <ul>
             {% for course_id in courses %}
             <li>
+                {% if loop.index == count-10 %}
+                <div id="anchor"></div>
+                {% endif %}
                 <h2>{{course_id}}</h2>
                 <div class="links">
                     <a
@@ -47,5 +50,10 @@
             </li>
             {% endfor %}
         </ul>
+        <div class="show-more">
+            <a href="{{ url_for('index', count=count+10, _anchor='anchor') }}"
+                >Show more</a
+            >
+        </div>
     </body>
 </html>
